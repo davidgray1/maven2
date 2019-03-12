@@ -9,19 +9,33 @@ agent{
 stages{
 stage('Build') {
 	steps {
-	echo 'Building..'
-        sh 'mvn install -DskipTests'     	
+	sh 'mvn clean compile
+        sh 'ls -l'     	
 }
 }
 stage('Test') {
 	steps {
-	echo 'Testing..'
+	sh 'mvn package'
+	sh 'ls -l'
 }
 }
 stage('Deploy'){
 	steps {
-	echo 'Deploying...'
+	sh 'mvn install'
+	sh 'ls -l'
 	}
+post {
+
+	success {
+		archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)
+	failure{
+
+		echo 'Build failed'}
+
+}
+
+
+}
 }
 }
 }
