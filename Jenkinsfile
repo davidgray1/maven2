@@ -1,19 +1,32 @@
 pipeline {
+
     agent none 
     stages {
+
         stage('Complile') {
+
     agent {
+
        docker {
+
          image 'maven:3-alpine'
+
        }
     }
             steps {
+
                 sh 'mvn clean compile'
                 sh 'ls -l'
             }
         }
-        stage('Test') {
+        
+
+stage('Test') {
+
+
     agent {
+
+
        docker {
          image 'maven:3-alpine'
        }
@@ -23,19 +36,29 @@ pipeline {
                 sh 'ls -l'
             }
         }
-        stage('Docker') {
+
+stage('Docker') {
+
             agent {
+
               docker {
+
                  image 'docker:latest'
+
               }
+
             }
             steps {
                 sh 'docker build -t in-jenkins-image .'
                 sh 'ls -l'
             }
         }
-        stage('Deploy') {
+
+stage('Deploy') {
+
     agent {
+
+
        docker {
          image 'maven:3-alpine'
        }
@@ -46,12 +69,17 @@ pipeline {
             }
         }
     }
-    post {
-          success {
-             archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)   
-           }
+
+post {
+
+                 
+
+
+
           failure {
-             echo 'Build FAiled'
+
+             echo 'Build failed'
+
            }
      }
 }
