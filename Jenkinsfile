@@ -68,11 +68,26 @@ stage('Deploy') {
                 sh 'ls -l'
             }
         }
+stage('Push'){
+	withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USER', passwordVariable: 'PASSWORD')]) {
+	def registry_url = ""https://cloud.docker.com/repository/registry-1.docker.io/davidgray123/jenkinstodocker
+	bat "docker login -u $USER -p $PASSWORD ${https://cloud.docker.com/repository/registry-1.docker.io/davidgray123/jenkinstodocker}"
+	docker.withRegistry("http://${https://cloud.docker.com/repository/registry-1.docker.io/davidgray123/jenkinstodocker}", "docker-hub-credentials"){
+	
+	bat "docker push in-jenkins-image:latest"
+				}
+
+
+
+
+
     }
 
 post {
 
-                 
+	  success {
+             archiveArtifacts(artifacts: '**/target/*.jar', allowEmptyArchive: true)   
+           }                 
 
 
 
