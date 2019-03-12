@@ -23,7 +23,7 @@ stage('Deploy'){
 	steps {
 	sh 'mvn install'
 	sh 'ls -l'
-	}
+	}}}
 post {
 
 	success {
@@ -36,7 +36,7 @@ post {
 }
 
 
+
+
 }
-}
-}
-}
+
